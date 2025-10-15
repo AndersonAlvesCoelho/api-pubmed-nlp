@@ -1,10 +1,9 @@
-# Imagem base
 FROM python:3.12-slim
 
-# Define o diretório de trabalho dentro do container
+# Diretório de trabalho
 WORKDIR /app
 
-# Evita prompts interativos e instala dependências do sistema necessárias
+# Instala dependências do sistema
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     build-essential \
@@ -15,20 +14,25 @@ RUN apt-get update && \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copia o arquivo de dependências e instala pacotes Python
-COPY requirements.txt . 
+# Copia o requirements e instala dependências Python
+COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Instala spaCy e baixa o modelo en_core_web_sm
-RUN pip install --no-cache-dir spacy==3.8.7
+# Instala bibliotecas adicionais necessárias para o NLP
+RUN pip install --no-cache-dir biopython wordcloud scikit-learn spacy sumy nltk
+
+# Baixa o modelo do spaCy
 RUN python -m spacy download en_core_web_sm
 
-# Copia todo o código da API para o container
+# Baixa os dados do NLTK (punkt e punkt_tab)
+RUN python -m nltk.downloader punkt punkt_tab
+
+# Copia o código da API
 COPY . .
 
-# Expõe a porta que a API vai rodar
+# Expõe a porta do FastAPI
 EXPOSE 8000
 
-# Comando para rodar o uvicorn
+# Comando para iniciar a API
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

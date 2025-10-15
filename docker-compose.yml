@@ -1,10 +1,12 @@
+version: "3.9"
+
 services:
   pubmed_nlp_api:
-    build: .          
+    build: .
     container_name: pubmed_nlp_api
     restart: unless-stopped
     ports:
-      - "8000:8000"        
+      - "8000:8000"
     environment:
       - ENV=production
     networks:
@@ -12,4 +14,4 @@ services:
 
 networks:
   backend_network:
-    external: true        
+    external: true
