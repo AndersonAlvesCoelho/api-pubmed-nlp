@@ -1,20 +1,15 @@
-version: "3.9"
-
 services:
   pubmed_nlp_api:
+    build: .          
     container_name: pubmed_nlp_api
-    build:
-      context: .   # pasta onde está o Dockerfile da sua API
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"               # expõe porta 8000 para acesso externo
-    environment:
-      - PYTHONUNBUFFERED=1
     restart: unless-stopped
+    ports:
+      - "8000:8000"        
+    environment:
+      - ENV=production
     networks:
-      - backend
+      - backend_network
 
 networks:
-  backend:
-    external: true
-    name: traefik_default
+  backend_network:
+    external: true        
