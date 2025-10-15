@@ -4,7 +4,7 @@ services:
   pubmed_nlp_api:
     container_name: pubmed_nlp_api
     build:
-      context: ./api-pubmed-nlp   # pasta onde está o Dockerfile da sua API
+      context: .   # pasta onde está o Dockerfile da sua API
       dockerfile: Dockerfile
     ports:
       - "8000:8000"               # expõe porta 8000 para acesso externo
