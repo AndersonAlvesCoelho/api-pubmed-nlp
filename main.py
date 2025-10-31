@@ -6,13 +6,13 @@ from pipeline.pipeline import analyze_articles
 
 app = FastAPI(title="PubMed NLP Analyzer")
 
-# 🔓 Middleware para liberar CORS completamente (qualquer origem)
+#   CORS 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # permite qualquer origem
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # permite todos os métodos HTTP (GET, POST, etc.)
-    allow_headers=["*"],  # permite todos os cabeçalhos
+    allow_methods=["*"], 
+    allow_headers=["*"],
 )
 
 class PubMedRequest(BaseModel):
